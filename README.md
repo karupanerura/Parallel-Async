@@ -6,6 +6,15 @@ Parallel::Async - It's new $module
 
     use Parallel::Async;
 
+    my $task = async {
+        print "[$$] start!!\n";
+        my $msg = "this is run result of pid:$$."; # MSG
+        return $msg;
+    };
+
+    my $msg = $task->recv;
+    say $msg; # same as MSG
+
 # DESCRIPTION
 
 Parallel::Async is ...
