@@ -181,6 +181,12 @@ sub _read_storable_data {
     return $data;
 }
 
+sub reset :method {
+    my $self = shift;
+    $self->{child_pid}      = undef;
+    $self->{already_run_fg} = 0;
+}
+
 sub clone {
     my $self = shift;
     my $class = ref $self;

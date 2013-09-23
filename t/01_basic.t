@@ -42,6 +42,20 @@ subtest 'clone' => sub {
     is $ret, $task->child_pid;
 };
 
+subtest 'reset' => sub {
+    my $task = new_task();
+    my $ret = $task->recv();
+    is $ret, $task->child_pid;
+
+    $ret = eval { $task->recv() };
+    like $@, qr/\A\Qthis task already run./msi;
+    is $ret, undef;
+
+    $task->reset;
+    $ret = $task->recv();
+    is $ret, $task->child_pid;
+};
+
 subtest 'run' => sub {
     my $task = new_task;
     my $pid = $task->run();
