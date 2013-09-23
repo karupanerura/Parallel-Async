@@ -42,15 +42,32 @@
       },
       "runtime" : {
          "requires" : {
+            "AnyEvent" : "0",
+            "Class::Accessor::Lite" : "0",
+            "Try::Tiny" : "0",
+            "parent" : "0",
             "perl" : "5.008005"
          }
       },
       "test" : {
          "requires" : {
-            "Test::More" : "0.98"
+            "Test::More" : "0",
+            "Test::Requires" : "0",
+            "Test::SharedFork" : "0"
          }
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/karupanerura/Parallel-Async/issues"
+      },
+      "homepage" : "https://github.com/karupanerura/Parallel-Async",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/karupanerura/Parallel-Async.git",
+         "web" : "https://github.com/karupanerura/Parallel-Async"
+      }
+   },
    "version" : "0.01"
 }
