@@ -14,6 +14,7 @@ our $WANTARRAY;
 our $EXIT_CODE;
 
 use Class::Accessor::Lite ro => [qw/parent_pid child_pid/];
+use Parallel::Async::Chain;
 
 sub new {
     my ($class, %args) = @_;
@@ -34,14 +35,8 @@ sub recv :method {
 
         $self->_wait();
 
-        my $ret = $self->_read_storable_data() || [];
-        if ($ret->[0]) {## has error
-            die $ret->[1];
-        }
-        else {
-            my $ret = $ret->[2] || [];
-            return $WANTARRAY ? @$ret : $ret->[0];
-        }
+        my $ret = $self->read_child_result();
+        return $WANTARRAY ? @$ret : $ret->[0];
     };
 
     return $self->run();
@@ -60,14 +55,8 @@ sub as_anyevent_child {
             cb  => sub {
                 my ($pid, $status) = @_;
 
-                my $ret = $self->_read_storable_data() || [];
-                if ($ret->[0]) {## has error
-                    die $ret->[1];
-                }
-                else {
-                    my $ret = $ret->[2] || [];
-                    return $cb->($pid, $status, $WANTARRAY ? @$ret : $ret->[0]);
-                }
+                my $ret = $self->read_child_result();
+                return $cb->($pid, $status, $WANTARRAY ? @$ret : $ret->[0]);
             }
         );
     };
@@ -133,6 +122,11 @@ sub _run_on_child {
     CORE::exit($EXIT_CODE);
 }
 
+sub join :method {
+    my $self = shift;
+    return Parallel::Async::Chain->join($self, @_);
+}
+
 sub _wait {
     my $self = shift;
 
@@ -179,6 +173,18 @@ sub _read_storable_data {
     }
 
     return $data;
+}
+
+sub read_child_result {
+    my $self = shift;
+    my $data = $self->_read_storable_data() || [];
+
+    if ($data->[0]) {## has error
+        die $data->[1];
+    }
+    else {
+        return $data->[2] || [];
+    }
 }
 
 sub reset :method {
