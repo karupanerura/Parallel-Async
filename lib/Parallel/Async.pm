@@ -29,7 +29,7 @@ __END__
 
 =head1 NAME
 
-Parallel::Async - It's new $module
+Parallel::Async - run parallel task with fork to simple.
 
 =head1 SYNOPSIS
 
@@ -46,7 +46,11 @@ Parallel::Async - It's new $module
 
 =head1 DESCRIPTION
 
-Parallel::Async is ...
+Parallel::Async is
+
+=head1 SEE ALSO
+
+L<Parallel::ForkManager> L<Parallel::Prefork>
 
 =head1 LICENSE
 
@@ -60,4 +64,3 @@ it under the same terms as Perl itself.
 karupanerura E<lt>karupa@cpan.orgE<gt>
 
 =cut
-
