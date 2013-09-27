@@ -2,12 +2,13 @@ use strict;
 use warnings;
 
 use Test::More;
+use Time::HiRes qw/sleep/;
 
 use Parallel::Simple;
 
 sub new_task {
     return async_task {
-        select undef, undef, undef, 0.1 * (1 + int rand 3);
+        sleep 0.1 * (1 + int rand 3);
         note $$;
         return (@_, $$);
     };
