@@ -6,7 +6,7 @@ use Test::More;
 use Parallel::Simple;
 
 sub new_task {
-    return async {
+    return async_task {
         note $$;
         sleep 1 + int rand 3;
         return $$;

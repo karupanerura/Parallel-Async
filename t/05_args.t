@@ -5,7 +5,7 @@ use Test::More;
 
 use Parallel::Simple;
 
-my $task = async {
+my $task = async_task {
     note $$;
     return (@_, $$);
 };

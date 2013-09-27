@@ -6,20 +6,14 @@ use warnings;
 our $VERSION = "0.01";
 
 use parent qw/Exporter/;
-our @EXPORT    = qw/async/;
-our @EXPORT_OK = qw/async_task/;
+our @EXPORT = qw/async_task/;
 
 use Parallel::Simple::Task;
 our $TASK_CLASS = 'Parallel::Simple::Task';
 
-sub async (&) {## no critic
+sub async_task (&) {## no critic
     my $code = shift;
     return $TASK_CLASS->new(code => $code);
-}
-
-{
-    no warnings 'once';
-    *async_task = \&async;
 }
 
 1;

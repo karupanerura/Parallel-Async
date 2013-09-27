@@ -7,7 +7,7 @@ use Test::Requires qw/AnyEvent/;
 use Parallel::Simple;
 
 sub new_task {
-    return async {
+    return async_task {
         note $$;
         return $$;
     };
