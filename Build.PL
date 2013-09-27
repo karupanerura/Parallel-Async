@@ -23,8 +23,8 @@ my %args = (
         'Module::Build' => 0.38,
     },
 
-    name            => 'Parallel-Simple',
-    module_name     => 'Parallel::Simple',
+    name            => 'Parallel-Async',
+    module_name     => 'Parallel::Async',
     allow_pureperl => 0,
 
     script_files => [glob('script/*'), glob('bin/*')],

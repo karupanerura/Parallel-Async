@@ -4,10 +4,10 @@ use warnings;
 use Test::More;
 use Time::HiRes qw/sleep/;
 
-use Parallel::Simple;
+use Parallel::Async;
 
 sub new_task {
-    return async_task {
+    return async {
         sleep 0.1 * (1 + int rand 3);
         note $$;
         return (@_, $$);

@@ -1,4 +1,4 @@
-package Parallel::Simple::Chain;
+package Parallel::Async::Chain;
 use 5.008005;
 use strict;
 use warnings;
@@ -20,7 +20,7 @@ sub recv :method {
     my ($self, @args) = @_;
 
     no warnings 'once';
-    local $Parallel::Simple::Task::WANTARRAY = 1;
+    local $Parallel::Async::Task::WANTARRAY = 1;
     use warnings 'once';
 
     my @pids = $self->run(@args);
@@ -46,7 +46,7 @@ sub _wait {
     }
     continue {
         no warnings 'once';
-        Time::HiRes::usleep($Parallel::Simple::Task::WAIT_INTERVAL);
+        Time::HiRes::usleep($Parallel::Async::Task::WAIT_INTERVAL);
     }
 }
 
@@ -81,15 +81,15 @@ __END__
 Execute tasks on child processes and wait for receive return values.
 
     # create new task
-    my $task_add = async_task {
+    my $task_add = async {
         my ($x, $y) = @_;
         return $x + $y;
     };
-    my $task_sub = async_task {
+    my $task_sub = async {
         my ($x, $y) = @_;
         return $x - $y;
     };
-    my $task_times = async_task {
+    my $task_times = async {
         my ($x, $y) = @_;
         return $x * $y;
     };
@@ -105,15 +105,15 @@ Execute tasks on child processes and wait for receive return values.
 Execute tasks on child processes.
 
     # create new task
-    my $task_add = async_task {
+    my $task_add = async {
         my ($x, $y) = @_;
         return $x + $y;
     };
-    my $task_sub = async_task {
+    my $task_sub = async {
         my ($x, $y) = @_;
         return $x - $y;
     };
-    my $task_times = async_task {
+    my $task_times = async {
         my ($x, $y) = @_;
         return $x * $y;
     };
@@ -122,15 +122,15 @@ Execute tasks on child processes.
 
 =item $chain->join($task1, ...);
 
-Join multiple tasks, like L<Parallel::Simple::Task>#join.
+Join multiple tasks, like L<Parallel::Async::Task>#join.
 
 =item $task->reset;
 
-Reset the execution status of all tasks, like L<Parallel::Simple::Task>#reset.
+Reset the execution status of all tasks, like L<Parallel::Async::Task>#reset.
 
 =item $task->clone;
 
-Clone and reset the execution status of all tasks, like L<Parallel::Simple::Task>#clone.
+Clone and reset the execution status of all tasks, like L<Parallel::Async::Task>#clone.
 
 =back
 

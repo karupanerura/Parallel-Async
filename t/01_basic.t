@@ -3,10 +3,10 @@ use warnings;
 
 use Test::More;
 
-use Parallel::Simple;
+use Parallel::Async;
 
 sub new_task {
-    return async_task {
+    return async {
         note $$;
         return $$;
     };

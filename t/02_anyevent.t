@@ -4,10 +4,10 @@ use warnings;
 use Test::More;
 use Test::Requires qw/AnyEvent/;
 
-use Parallel::Simple;
+use Parallel::Async;
 
 sub new_task {
-    return async_task {
+    return async {
         note $$;
         return $$;
     };

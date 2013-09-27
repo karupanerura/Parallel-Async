@@ -1,4 +1,4 @@
-package Parallel::Simple::Task;
+package Parallel::Async::Task;
 use 5.008005;
 use strict;
 use warnings;
@@ -17,7 +17,7 @@ our $EXIT_CODE;
 our $WAIT_INTERVAL = 0.1 * 1000 * 1000;
 
 use Class::Accessor::Lite ro => [qw/parent_pid child_pid/];
-use Parallel::Simple::Chain;
+use Parallel::Async::Chain;
 
 sub new {
     my ($class, %args) = @_;
@@ -119,7 +119,7 @@ sub _run_on_child {
 
 sub join :method {
     my $self = shift;
-    return Parallel::Simple::Chain->join($self, @_);
+    return Parallel::Async::Chain->join($self, @_);
 }
 
 sub _wait {
@@ -207,24 +207,24 @@ __END__
 
 =over
 
-=item $task = Parallel::Simple::Task->new(\%args)
+=item $task = Parallel::Async::Task->new(\%args)
 
-Creates a new Parallel::Simple::Task instance.
+Creates a new Parallel::Async::Task instance.
 
-    use Parallel::Simple::Task;
+    use Parallel::Async::Task;
 
     # create new task
-    my $task = Parallel::Simple::Task->new(code => sub {
+    my $task = Parallel::Async::Task->new(code => sub {
         my $result = ...; ## do some task
         return $result;
     });
 
 this code is same as
 
-    use Parallel::Simple;
+    use Parallel::Async;
 
     # create new task
-    my $task = async_task {
+    my $task = async {
         my $result = ...; ## do some task
         return $result;
     };
@@ -245,7 +245,7 @@ This CodeRef can get arguments from C<recv> or C<as_anyevent_child> or C<run> me
 Execute task on child process and wait for receive return value.
 
     # create new task
-    my $task = async_task {
+    my $task = async {
         my ($x, $y) = @_;
         return $x + $y;
     };
@@ -259,7 +259,7 @@ Execute task on child process and receive return value with AnyEvent->child.
 This feature required L<AnyEvent>.
 
     # create new task
-    my $task = async_task {
+    my $task = async {
         my ($x, $y) = @_;
         return $x + $y;
     };
@@ -275,7 +275,7 @@ This feature required L<AnyEvent>.
 Execute task on child process.
 
     # create new task
-    my $task = async_task {
+    my $task = async {
         my ($url) = @_;
         post($url);
     };
@@ -287,7 +287,7 @@ Execute task on child process.
 
 Join multiple tasks.
 Can be execute tasks in parallel by chained task.
-See also L<Parallel::Simple::Chain> for more usage.
+See also L<Parallel::Async::Chain> for more usage.
 
 =item $task->reset;
 
@@ -295,7 +295,7 @@ Reset the execution status of the task.
 This feature is useful when you want to re-execute the same task.
 
     # create new task
-    my $task = async_task {
+    my $task = async {
         my ($x, $y) = @_;
         return $x + $y;
     };
@@ -312,7 +312,7 @@ Clone and reset the execution status of the task.
 This feature is useful when you want to execute same tasks in parallel.
 
     # create new task
-    my $task = async_task {
+    my $task = async {
         my ($x, $y) = @_;
         return $x + $y;
     };

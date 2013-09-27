@@ -3,9 +3,9 @@ use warnings;
 
 use Test::More;
 
-use Parallel::Simple;
+use Parallel::Async;
 
-my $task = async_task {
+my $task = async {
     note $$;
     return (@_, $$);
 };
