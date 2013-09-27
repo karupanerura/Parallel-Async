@@ -29,7 +29,7 @@ Parallel::Simple - run parallel task with fork to simple.
 
     use Parallel::Simple;
 
-    my $task = async {
+    my $task = async_task {
         print "[$$] start!!\n";
         my $msg = "this is run result of pid:$$."; # MSG
         return $msg;
@@ -40,7 +40,10 @@ Parallel::Simple - run parallel task with fork to simple.
 
 =head1 DESCRIPTION
 
-Parallel::Simple is
+Parallel::Simple is yet another fork tool.
+Run parallel task with fork to simple.
+
+See also L<Parallel::Simple::Task> for more usage.
 
 =head1 SEE ALSO
 

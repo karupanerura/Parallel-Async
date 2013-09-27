@@ -196,22 +196,47 @@ __END__
 
 =encoding utf-8
 
-=head1 NAME
-
-Parallel::Simple::Task - It's new $module
-
-=head1 DESCRIPTION
-
-Parallel::Simple::Task is ...
-
 =head1 METHODS
 
-=head1 LICENSE
+=over
 
-Copyright (C) karupanerura.
+=item $task = Parallel::Simple::Task->new(\%args)
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+Creates a new Parallel::Simple::Task instance.
+
+    use Parallel::Simple::Task;
+
+    # create new task
+    my $task = Parallel::Simple::Task->new(code => sub {
+        my $result = ...; ## do some task
+        return $result;
+    });
+
+this code is same as
+
+    use Parallel::Simple;
+
+    # create new task
+    my $task = async_task {
+        my $result = ...; ## do some task
+        return $result;
+    };
+
+Arguments can be:
+
+=over
+
+=item * C<code>
+
+CodeRef to run on child process.
+This CodeRef can get arguments from C<recv> or C<as_anyevent_child> or C<run> method arguments.
+
+=back
+
+=item my @result = $task->recv(@args)
+
+
+=back
 
 =head1 AUTHOR
 
