@@ -1,10 +1,10 @@
 # NAME
 
-Parallel::Async - run parallel task with fork to simple.
+Parallel::Simple - run parallel task with fork to simple.
 
 # SYNOPSIS
 
-    use Parallel::Async;
+    use Parallel::Simple;
 
     my $task = async {
         print "[$$] start!!\n";
@@ -17,7 +17,7 @@ Parallel::Async - run parallel task with fork to simple.
 
 # DESCRIPTION
 
-Parallel::Async is
+Parallel::Simple is
 
 # SEE ALSO
 

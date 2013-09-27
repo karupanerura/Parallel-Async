@@ -1,4 +1,4 @@
-package Parallel::Async::Task;
+package Parallel::Simple::Task;
 use 5.008005;
 use strict;
 use warnings;
@@ -14,7 +14,7 @@ our $WANTARRAY;
 our $EXIT_CODE;
 
 use Class::Accessor::Lite ro => [qw/parent_pid child_pid/];
-use Parallel::Async::Chain;
+use Parallel::Simple::Chain;
 
 sub new {
     my ($class, %args) = @_;
@@ -116,7 +116,7 @@ sub _run_on_child {
 
 sub join :method {
     my $self = shift;
-    return Parallel::Async::Chain->join($self, @_);
+    return Parallel::Simple::Chain->join($self, @_);
 }
 
 sub _wait {
@@ -198,11 +198,11 @@ __END__
 
 =head1 NAME
 
-Parallel::Async::Task - It's new $module
+Parallel::Simple::Task - It's new $module
 
 =head1 DESCRIPTION
 
-Parallel::Async::Task is ...
+Parallel::Simple::Task is ...
 
 =head1 METHODS
 

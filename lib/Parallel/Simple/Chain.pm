@@ -1,4 +1,4 @@
-package Parallel::Async::Chain;
+package Parallel::Simple::Chain;
 use 5.008005;
 use strict;
 use warnings;
@@ -19,7 +19,7 @@ sub recv :method {
     my $self = shift;
 
     no warnings 'once';
-    local $Parallel::Async::Task::WANTARRAY = 1;
+    local $Parallel::Simple::Task::WANTARRAY = 1;
     use warnings 'once';
 
     my @pids = map { $_->run } @{ $self->{tasks} };
@@ -48,12 +48,12 @@ __END__
 
 =head1 NAME
 
-Parallel::Async::Chain - task chain tool for Parallel::Async
+Parallel::Simple::Chain - task chain tool for Parallel::Simple
 
 =head1 SYNOPSIS
 
-    use Parallel::Async;
-    use Parallel::Async::Chain;
+    use Parallel::Simple;
+    use Parallel::Simple::Chain;
 
     my $task1 = async {
         print "[$$] start!!\n";
@@ -67,7 +67,7 @@ Parallel::Async::Chain - task chain tool for Parallel::Async
         return $msg;
     };
 
-    my $chain = Parallel::Async::Chain->join($task1, $task2);
+    my $chain = Parallel::Simple::Chain->join($task1, $task2);
 
     my ($msg1, $msg2) = $chain->recv;
     say $msg1->[0]; # same as MSG1
@@ -82,7 +82,7 @@ or
 
 =head1 DESCRIPTION
 
-Parallel::Async::Chain is task chain tool for L<Parallel::Async>;
+Parallel::Simple::Chain is task chain tool for L<Parallel::Simple>;
 
 =head1 LICENSE
 

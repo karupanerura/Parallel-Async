@@ -4,7 +4,7 @@ use warnings;
 use Test::More;
 use Test::SharedFork;
 
-use Parallel::Async;
+use Parallel::Simple;
 
 sub new_task {
     return async {

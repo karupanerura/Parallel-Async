@@ -4,7 +4,7 @@ use warnings;
 use Test::More;
 use Test::Requires qw/AnyEvent/;
 
-use Parallel::Async;
+use Parallel::Simple;
 
 sub new_task {
     return async {

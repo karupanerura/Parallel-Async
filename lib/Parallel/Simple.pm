@@ -1,4 +1,4 @@
-package Parallel::Async;
+package Parallel::Simple;
 use 5.008005;
 use strict;
 use warnings;
@@ -9,8 +9,8 @@ use parent qw/Exporter/;
 our @EXPORT    = qw/async/;
 our @EXPORT_OK = qw/async_task/;
 
-use Parallel::Async::Task;
-our $TASK_CLASS = 'Parallel::Async::Task';
+use Parallel::Simple::Task;
+our $TASK_CLASS = 'Parallel::Simple::Task';
 
 sub async (&) {## no critic
     my $code = shift;
@@ -29,11 +29,11 @@ __END__
 
 =head1 NAME
 
-Parallel::Async - run parallel task with fork to simple.
+Parallel::Simple - run parallel task with fork to simple.
 
 =head1 SYNOPSIS
 
-    use Parallel::Async;
+    use Parallel::Simple;
 
     my $task = async {
         print "[$$] start!!\n";
@@ -46,7 +46,7 @@ Parallel::Async - run parallel task with fork to simple.
 
 =head1 DESCRIPTION
 
-Parallel::Async is
+Parallel::Simple is
 
 =head1 SEE ALSO
 

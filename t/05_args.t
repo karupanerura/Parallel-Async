@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More;
 
-use Parallel::Async;
+use Parallel::Simple;
 
 my $task = async {
     note $$;

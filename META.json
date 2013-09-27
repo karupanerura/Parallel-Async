@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "Parallel-Async",
+   "name" : "Parallel-Simple",
    "no_index" : {
       "directory" : [
          "t",
@@ -60,13 +60,13 @@
    "release_status" : "unstable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/karupanerura/Parallel-Async/issues"
+         "web" : "https://github.com/karupanerura/Parallel-Simple/issues"
       },
-      "homepage" : "https://github.com/karupanerura/Parallel-Async",
+      "homepage" : "https://github.com/karupanerura/Parallel-Simple",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/karupanerura/Parallel-Async.git",
-         "web" : "https://github.com/karupanerura/Parallel-Async"
+         "url" : "git://github.com/karupanerura/Parallel-Simple.git",
+         "web" : "https://github.com/karupanerura/Parallel-Simple"
       }
    },
    "version" : "0.01"

@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More;
 
-use Parallel::Async;
+use Parallel::Simple;
 
 sub new_task {
     return async {
