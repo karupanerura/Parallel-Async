@@ -16,17 +16,21 @@ sub join :method {
 }
 
 sub recv :method {
-    my $self = shift;
+    my ($self, @args) = @_;
 
     no warnings 'once';
     local $Parallel::Simple::Task::WANTARRAY = 1;
     use warnings 'once';
 
-    my @pids = map { $_->run } @{ $self->{tasks} };
-
+    my @pids = $self->run(@args);
     $self->_wait(@pids);
 
-    return map { $_->read_child_result() } @{ $self->{tasks} };
+    return $self->read_child_result();
+}
+
+sub run {
+    my ($self, @args) = @_;
+    return map { $_->run(@args) } @{ $self->{tasks} };
 }
 
 sub _wait {
@@ -39,6 +43,23 @@ sub _wait {
 
         delete $pids{$pid} if exists $pids{$pid};
     };
+}
+
+sub read_child_result {
+    my $self = shift;
+    return map { $_->read_child_result() } @{ $self->{tasks} };
+}
+
+sub reset :method {
+    my $self = shift;
+    $_->reset for @{ $self->{tasks} };
+    return $self;
+}
+
+sub clone {
+    my $self  = shift;
+    my $class = ref $self;
+    return $class->join(map { $_->clone } @{ $self->{tasks} });
 }
 
 1;
