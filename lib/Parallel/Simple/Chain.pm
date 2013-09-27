@@ -5,6 +5,7 @@ use warnings;
 
 use Class::Accessor::Lite rw => [qw/tasks/];
 use POSIX ":sys_wait_h";
+use Time::HiRes ();
 
 sub join :method {
     my $self = shift;
@@ -42,7 +43,11 @@ sub _wait {
         last if $pid == -1;
 
         delete $pids{$pid} if exists $pids{$pid};
-    };
+    }
+    continue {
+        no warnings 'once';
+        Time::HiRes::usleep($Parallel::Simple::Task::WAIT_INTERVAL);
+    }
 }
 
 sub read_child_result {

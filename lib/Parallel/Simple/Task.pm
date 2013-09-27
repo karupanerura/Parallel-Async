@@ -7,11 +7,14 @@ use Try::Tiny;
 use Storable ();
 use File::Spec;
 use POSIX ":sys_wait_h";
+use Time::HiRes ();
 
 (my $TMPDIR_BASENAME = __PACKAGE__) =~ s!::!-!g;
 
 our $WANTARRAY;
 our $EXIT_CODE;
+
+our $WAIT_INTERVAL = 0.1 * 1000 * 1000;
 
 use Class::Accessor::Lite ro => [qw/parent_pid child_pid/];
 use Parallel::Simple::Chain;
@@ -125,6 +128,7 @@ sub _wait {
     my $pid = $self->{parent_pid};
     while ($self->{child_pid} != $pid) {
         $pid = waitpid(-1, WNOHANG);
+        Time::HiRes::usleep($WAIT_INTERVAL);
         last if $pid == -1;
     }
 }
