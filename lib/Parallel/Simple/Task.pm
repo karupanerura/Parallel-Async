@@ -181,8 +181,11 @@ sub read_child_result {
 
 sub reset :method {
     my $self = shift;
+
     $self->{child_pid}      = undef;
     $self->{already_run_fg} = 0;
+
+    return $self;
 }
 
 sub clone {
