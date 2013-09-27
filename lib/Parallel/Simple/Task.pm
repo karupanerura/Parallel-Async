@@ -235,6 +235,82 @@ This CodeRef can get arguments from C<recv> or C<as_anyevent_child> or C<run> me
 
 =item my @result = $task->recv(@args)
 
+Execute task on child process and wait for receive return value.
+
+    # create new task
+    my $task = async_task {
+        my ($x, $y) = @_;
+        return $x + $y;
+    };
+
+    my $res = $task->recv(10, 20);
+    say $res; # 30
+
+=item my $watcher = $task->as_anyevent_child(@args)
+
+Execute task on child process and receive return value with AnyEvent->child.
+This feature required L<AnyEvent>.
+
+    # create new task
+    my $task = async_task {
+        my ($x, $y) = @_;
+        return $x + $y;
+    };
+
+    my $watcher; $watcher = $task->as_anyevent_child(sub {
+        my ($pid, $status, $res) = @_;
+        say $res; ## 30
+        undef $watcher;
+    }, 10, 20);
+
+=item my $pid = $task->run(@args)
+
+Execute task on child process.
+
+    # create new task
+    my $task = async_task {
+        my ($url) = @_;
+        post($url);
+    };
+
+    my $pid = $task->run($url);
+    wait;
+
+=item my $chain = $task->join($task1, ...);
+
+Join multiple tasks.
+Can be execute tasks in parallel by chained task.
+See also L<Parallel::Simple::Chain> for more usage.
+
+=item $task->reset;
+
+Reset the execution status of the task.
+This feature is useful when you want to re-execute the same task.
+
+    # create new task
+    my $task = async_task {
+        my ($x, $y) = @_;
+        return $x + $y;
+    };
+
+    my $res = $task->recv(10, 20);
+    say $res; # 30
+
+    $res = $task->reset->recv(10, 30);
+    say $res; # 40
+
+=item $task->clone;
+
+Clone and reset the execution status of the task.
+This feature is useful when you want to execute same tasks in parallel.
+
+    # create new task
+    my $task = async_task {
+        my ($x, $y) = @_;
+        return $x + $y;
+    };
+
+    my @res = $task->join(map { $task->clone } 1..9)->recv(10, 30);
 
 =back
 

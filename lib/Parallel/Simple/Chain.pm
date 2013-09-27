@@ -46,50 +46,67 @@ __END__
 
 =encoding utf-8
 
-=head1 NAME
+=head1 METHODS
 
-Parallel::Simple::Chain - task chain tool for Parallel::Simple
+=over
 
-=head1 SYNOPSIS
+=item my @results = $chain->recv(@args)
 
-    use Parallel::Simple;
-    use Parallel::Simple::Chain;
+Execute tasks on child processes and wait for receive return values.
 
-    my $task1 = async {
-        print "[$$] start!!\n";
-        my $msg = "this is run result of pid:$$. (task1)"; # MSG1
-        return $msg;
+    # create new task
+    my $task_add = async_task {
+        my ($x, $y) = @_;
+        return $x + $y;
+    };
+    my $task_sub = async_task {
+        my ($x, $y) = @_;
+        return $x - $y;
+    };
+    my $task_times = async_task {
+        my ($x, $y) = @_;
+        return $x * $y;
     };
 
-    my $task2 = async {
-        print "[$$] start!!\n";
-        my $msg = "this is run result of pid:$$. (task2)"; # MSG1
-        return $msg;
+    my $chain = $task_add->join($task_sub)->join($task_times);
+    my ($res_add, $res_sub, $res_times) = $chain->recv(10, 20);
+    say $res_add->[0];   ##  30
+    say $res_sub->[0];   ## -10
+    say $res_times->[0]; ## 200
+
+=item my @pids = $chain->run(@args)
+
+Execute tasks on child processes.
+
+    # create new task
+    my $task_add = async_task {
+        my ($x, $y) = @_;
+        return $x + $y;
+    };
+    my $task_sub = async_task {
+        my ($x, $y) = @_;
+        return $x - $y;
+    };
+    my $task_times = async_task {
+        my ($x, $y) = @_;
+        return $x * $y;
     };
 
-    my $chain = Parallel::Simple::Chain->join($task1, $task2);
+    my @pids = $task->run(10, 20);
 
-    my ($msg1, $msg2) = $chain->recv;
-    say $msg1->[0]; # same as MSG1
-    say $msg2->[0]; # same as MSG2
+=item $chain->join($task1, ...);
 
-or
+Join multiple tasks, like L<Parallel::Simple::Task>#join.
 
-    my ($msg1, $msg2) = $task1->join($task2)->recv;
-    say $msg1->[0]; # same as MSG1
-    say $msg2->[0]; # same as MSG2
+=item $task->reset;
 
+Reset the execution status of all tasks, like L<Parallel::Simple::Task>#reset.
 
-=head1 DESCRIPTION
+=item $task->clone;
 
-Parallel::Simple::Chain is task chain tool for L<Parallel::Simple>;
+Clone and reset the execution status of all tasks, like L<Parallel::Simple::Task>#clone.
 
-=head1 LICENSE
-
-Copyright (C) karupanerura.
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+=back
 
 =head1 AUTHOR
 
