@@ -27,45 +27,38 @@ sub new {
 }
 
 sub recv :method {
-    my $self = shift;
+    my ($self, @args) = @_;
 
     local $WANTARRAY = wantarray;
-    local $self->{_run_on_parent} = sub {
-        my $self = shift;
 
-        $self->_wait();
+    $self->run(@args);
+    $self->_wait();
 
-        my $ret = $self->read_child_result();
-        return $WANTARRAY ? @$ret : $ret->[0];
-    };
-
-    return $self->run();
+    my $ret = $self->read_child_result();
+    return $WANTARRAY ? @$ret : $ret->[0];
 }
 
 sub as_anyevent_child {
-    my ($self, $cb) = @_;
+    my ($self, $cb, @args) = @_;
 
     local $WANTARRAY = 1;
-    local $self->{_run_on_parent} = sub {
-        my $self = shift;
 
-        require AnyEvent;
-        return AnyEvent->child(
-            pid => $self->{child_pid},
-            cb  => sub {
-                my ($pid, $status) = @_;
+    $self->run(@args);
 
-                my $ret = $self->read_child_result();
-                return $cb->($pid, $status, $WANTARRAY ? @$ret : $ret->[0]);
-            }
-        );
-    };
+    require AnyEvent;
+    return AnyEvent->child(
+        pid => $self->{child_pid},
+        cb  => sub {
+            my ($pid, $status) = @_;
 
-    return $self->run();
+            my $ret = $self->read_child_result();
+            return $cb->($pid, $status, $WANTARRAY ? @$ret : $ret->[0]);
+        }
+    );
 }
 
 sub run {
-    my $self = shift;
+    my ($self, @args) = @_;
     die 'this task already run.' if $self->{already_run_fg};
 
     my $pid = fork;
@@ -74,22 +67,21 @@ sub run {
     $self->{already_run_fg} = 1;
     if ($pid == 0) {## child
         $self->{child_pid} = $$;
-        return $self->_run_on_child();
+        return $self->_run_on_child(@args);
     }
     else {## parent
         $self->{child_pid} = $pid;
-        return $self->_run_on_parent();
+        return $self->_run_on_parent(@args);
     }
 }
 
 sub _run_on_parent {
     my $self = shift;
-    my $code = $self->{_run_on_parent} || sub { shift->{child_pid} };
-    return $self->$code();
+    return $self->{child_pid};
 }
 
 sub _run_on_child {
-    my $self = shift;
+    my ($self, @args) = @_;
 
     local $EXIT_CODE = 0;
 
@@ -99,13 +91,13 @@ sub _run_on_child {
 
         # context proxy
         if ($WANTARRAY) {
-            @ret = $orig->();
+            @ret = $orig->(@args);
         }
         elsif (defined $WANTARRAY) {
-            $ret[0] = $orig->();
+            $ret[0] = $orig->(@args);
         }
         else {
-            $orig->();
+            $orig->(@args);
         }
 
         return [0, undef, \@ret];
