@@ -1,5 +1,6 @@
 requires 'AnyEvent';
 requires 'Class::Accessor::Lite';
+requires 'Time::HiRes';
 requires 'Try::Tiny';
 requires 'parent';
 requires 'perl', '5.008005';
