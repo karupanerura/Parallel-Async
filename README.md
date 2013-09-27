@@ -1,6 +1,6 @@
 # NAME
 
-Parallel::Async - It's new $module
+Parallel::Async - run parallel task with fork to simple.
 
 # SYNOPSIS
 
@@ -17,7 +17,11 @@ Parallel::Async - It's new $module
 
 # DESCRIPTION
 
-Parallel::Async is ...
+Parallel::Async is
+
+# SEE ALSO
+
+[Parallel::ForkManager](http://search.cpan.org/perldoc?Parallel::ForkManager) [Parallel::Prefork](http://search.cpan.org/perldoc?Parallel::Prefork)
 
 # LICENSE
 
