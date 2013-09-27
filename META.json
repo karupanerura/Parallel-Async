@@ -60,13 +60,13 @@
    "release_status" : "unstable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/karupanerura/Parallel-Simple/issues"
+         "web" : "https://github.com/karupanerura/Parallel-Async/issues"
       },
-      "homepage" : "https://github.com/karupanerura/Parallel-Simple",
+      "homepage" : "https://github.com/karupanerura/Parallel-Async",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/karupanerura/Parallel-Simple.git",
-         "web" : "https://github.com/karupanerura/Parallel-Simple"
+         "url" : "git://github.com/karupanerura/Parallel-Async.git",
+         "web" : "https://github.com/karupanerura/Parallel-Async"
       }
    },
    "version" : "0.01"
