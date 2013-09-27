@@ -2,6 +2,11 @@ Revision history for Perl extension Parallel-Async
 
 {{$NEXT}}
 
+0.02 2013-09-27T18:00:49Z
+
+  - fixed dependency.
+  - fixed pod.
+
 0.01 2013-09-27T17:39:44Z
 
   - original version.
