@@ -72,6 +72,10 @@ __END__
 
 =encoding utf-8
 
+=head1 NAME
+
+Parallel::Async::Chain - task chain manager.
+
 =head1 METHODS
 
 =over

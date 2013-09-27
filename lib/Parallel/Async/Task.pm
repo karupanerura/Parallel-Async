@@ -203,6 +203,10 @@ __END__
 
 =encoding utf-8
 
+=head1 NAME
+
+Parallel::Async::Task - task class for Parallel::Async.
+
 =head1 METHODS
 
 =over
