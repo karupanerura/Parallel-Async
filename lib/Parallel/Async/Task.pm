@@ -307,6 +307,18 @@ Execute task on child process.
     my $pid = $task->run($url);
     wait;
 
+=item my $pid = $task->daemonize(@args)
+
+Execute task on daemonized process.
+
+    # create new task
+    my $task = async {
+        my ($url) = @_;
+        post($url);
+    };
+
+    my $pid = $task->daemonize($url);
+
 =item my $chain = $task->join($task1, ...);
 
 Join multiple tasks.

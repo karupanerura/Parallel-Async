@@ -127,7 +127,29 @@ Execute tasks on child processes.
         return $x * $y;
     };
 
-    my @pids = $task->run(10, 20);
+    my $chain = $task_add->join($task_sub)->join($task_times);
+    my @pids = $chain->run(10, 20);
+
+=item my @pids = $chain->daemonize(@args)
+
+Execute tasks on daemonized processes.
+
+    # create new task
+    my $task_add = async {
+        my ($x, $y) = @_;
+        return $x + $y;
+    };
+    my $task_sub = async {
+        my ($x, $y) = @_;
+        return $x - $y;
+    };
+    my $task_times = async {
+        my ($x, $y) = @_;
+        return $x * $y;
+    };
+
+    my $chain = $task_add->join($task_sub)->join($task_times);
+    my @pids = $chain->daemonize(10, 20);
 
 =item $chain->join($task1, ...);
 
