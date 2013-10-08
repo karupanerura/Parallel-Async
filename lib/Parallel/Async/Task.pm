@@ -126,9 +126,9 @@ sub _run_on_child {
         return [0, undef, \@ret];
     }
     catch {
-        $EXIT_CODE = $!      if $!;          # errno
-        $EXIT_CODE = $? >> 8 if $? >> 8;     # child exit status
         $EXIT_CODE = 255     if !$EXIT_CODE; # last resort
+        $EXIT_CODE = $? >> 8 if $? >> 8;     # child exit status
+        $EXIT_CODE = $!      if $!;          # errno
         return [1, $_, undef];
     };
 
