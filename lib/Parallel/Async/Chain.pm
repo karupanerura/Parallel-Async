@@ -34,6 +34,11 @@ sub run {
     return map { $_->run(@args) } @{ $self->{tasks} };
 }
 
+sub daemonize {
+    my ($self, @args) = @_;
+    return map { $_->daemonize(@args) } @{ $self->{tasks} };
+}
+
 sub _wait {
     my $self = shift;
     my %pids = map { $_ => 1 } @_;

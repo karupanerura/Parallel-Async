@@ -78,6 +78,26 @@ sub run {
     }
 }
 
+sub daemonize {
+    my ($self, @args) = @_;
+
+    my $orig = $self->{code};
+    local $self->{code} = sub {
+        my $pid = fork;
+        die $! unless defined $pid;
+
+        if ($pid == 0) {## child
+            $orig->(@args);
+            exit 0;
+        }
+        else {## parent
+            return $pid;
+        }
+    };
+
+    return $self->recv();
+}
+
 sub _run_on_parent {
     my $self = shift;
     return $self->{child_pid};
